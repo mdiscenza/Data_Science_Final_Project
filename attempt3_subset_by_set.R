@@ -65,6 +65,10 @@ model_iris <- boosting(Species~.,data=iris) #this works
 
 
 
-    #visualizations:
+# to attempt to get this to work I am going ot use a different package,
+library(caret)
+
+
+#visualizations:
 histogram(training_grades, main="Distribution of Grades in Training Set", xlab="Grades")
 
