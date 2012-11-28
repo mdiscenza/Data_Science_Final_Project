@@ -7,6 +7,7 @@ import_training_set <- function(){
     setwd("~/Dropbox/Fall_2012/Intro_to_Data_Science/Final Project")
     train <- read.delim("~/Dropbox/Fall_2012/Intro_to_Data_Science/Final Project/train.tsv", header=TRUE)
     #train <- read.delim("https://inclass.kaggle.com/c/columbia-university-introduction-to-data-science-fall-2012/download/train.tsv", header=TRUE)
+    train$essay <- as.character(train$essay)
     train<-na.omit(train)
     return (train)
 }
@@ -20,6 +21,7 @@ import_test_set <- function(){
     #column order: id, set, essay
     test <- read.delim("~/Dropbox/Fall_2012/Intro_to_Data_Science/Final Project/test.tsv", header=TRUE)
     #test <- read.delim("https://inclass.kaggle.com/c/columbia-university-introduction-to-data-science-fall-2012/download/test.tsv", header=TRUE)
+    test$essay <- as.character(test$essay)
     return  (test)
 }
 
@@ -27,7 +29,7 @@ import_test_set <- function(){
 
 
 tokenize_data <- function(train,test){
-    
+
     #Tokenizing the training data----------------------------------------------------------
     training_tokens<-create_matrix(train, language="english", removeNumbers=TRUE, stemWords=TRUE, removePunctuation=T, removeStopwords=T, toLower=T, removeSparseTerms=.98)
     training_tokens <- as.data.frame(as.matrix(training_tokens))

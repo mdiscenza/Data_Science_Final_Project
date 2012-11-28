@@ -1,9 +1,9 @@
-require(RTextTools)
-require(randomForest)
 setwd("~/Dropbox/Fall_2012/Intro_to_Data_Science/Final Project")
 
-
-
+#import the data
+training<-import_training_set()
+test<-import_test_set()
+tokenize_data(training, test)
 
 
 
