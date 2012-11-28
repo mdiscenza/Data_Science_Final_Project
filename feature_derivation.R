@@ -1,29 +1,42 @@
 #this file contains functons that will take as their input the actual essays(training or test as vectors and then return dataframes that can be combined with the existing feature sets using the c-bind function)
 
 #only for testing
-vector_of_essays <- test$essay
+#vector_of_essays <- test$essay
+Sys.setlocale('LC_ALL','C') 
 
-#will likely return NAs
-function <- number_of_characters(vector_of_essays){
-    nchar_w_NA <- function(x){
-       return (nchar(x,allowNA=TRUE))
-    }
-    lengths <- as.numeric(as.character(lapply(,nchar_w_NA)))
-    return (lengths)
-}
+
+
+#get # of characters
+
+
 #get word count
-function <- wordcount(vector_of_essays){
+wordcount<-function(vector_of_essays){
     word_count_for_essay <- function(x){
-        sapply(strsplit(test$essay[1], " "), length)
+        words <- sapply(strsplit(x, " "), length)
+        return (words)
     }
-    num_of_words <- as.numeric(as.character(lapply(test$essay,word_count_for_essay)))
+    num_of_words <- as.numeric(as.character(lapply(vector_of_essays,word_count_for_essay)))
     return (num_of_words)
-    
 }
 
+#get average word length  --- so this function might be off by a 1 because the spaces count
+average_word_length <- function(vector_of_essays){
+    number_of_characters <- function(vector_of_essays){
+        num_of_chars <- as.numeric(as.character(lapply(vector_of_essays,nchar)))
+        return (num_of_chars)
+    }
+    avg_word_length <- number_of_characters(vector_of_essays)/wordcount(vector_of_essays)
+    return (avg_word_length)
+}
+
+average_word_length(vector_of_essays)
 
 
-#complex stuff that doesn't yet work
+
+
+
+
+
 library("koRpus") #supposidly will help me calculate the Gunning-Fog Index
 
 file <- "~/Dropbox/Fall_2012/Intro_to_Data_Science/Final Project/temp_text_processing"
