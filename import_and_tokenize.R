@@ -48,8 +48,8 @@ tokenize_data <- function(train,test){
     test_tokens<-create_matrix(test, language="english", removeNumbers=TRUE, stemWords=TRUE, removePunctuation=T, removeStopwords=T, toLower=T, removeSparseTerms=.98)
     test_tokens <- as.data.frame(as.matrix(test_tokens))
     #need to change row names from being the whole essays
-    rownames(tokens) <- c(1:dim(tokens)[1])
-    test_data <- cbind(test$set,tokens)
+    rownames(test_tokens) <- c(1:dim(test_tokens)[1])
+    test_data <- cbind(test$set,test_tokens)
     rm(test_tokens)
     colnames(test_data)[1] <- "essayset" # need to do this because there is count of the occurances of the word "set" in the essays themselves
     

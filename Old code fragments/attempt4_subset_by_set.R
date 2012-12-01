@@ -43,16 +43,17 @@ colnames(train_temp)[1] <- "grades"
 
 
 # Random forest- this works, but is not what I want because I need the "essayset" variable to be used in all trees that are fit, so I should use something like bagging or boosting, or just grow a single tree
+
 for (set in 1:5){
     print(set)
-    train_subset <- training_data[which(training_data$essayset==set),]
-    test_subset <- test_data[which(test_data$essayset==set),]
-    training_grades_subset <- training_grades[which(training_data$essayset==set)]
-    model_subset <-randomForest(x=train_subset, y=training_grades_subset, ntree=20)
-    assign(paste("pred_subset",set,sep=""),predict(model_subset, test_subset))
-    pred_temp <- predict(model_subset, test_subset)
-    set <- rep(x=i, times=length(test_subset))
-    weight <- rep(x=1, times=length(test_subset))
+    subset_training <- training_tokens[which(training_tokens$essayset==set),-1]
+    subset_test <- test_tokens[which(test_tokens$essayset==set),-1]
+    training_grades_subset <- training$grade[which(training_tokens$essayset==set)]
+    model_subset <-randomForest(x=subset_training, y=training_grades_subset, ntree=20)
+    assign(paste("pred_subset",set,sep=""),predict(model_subset, subset_test))
+    pred_temp <- predict(model_subset, subset_test)
+    set <- rep(x=i, times=length(subset_test))
+    weight <- rep(x=1, times=length(subset_test))
 
     assign(paste("pred_subset",set,sep=""),cbind(test$id[which(test$set==i)],set, weight,round(pred_temp)))
 }

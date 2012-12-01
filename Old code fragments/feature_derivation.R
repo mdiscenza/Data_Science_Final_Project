@@ -28,8 +28,14 @@ average_word_length <- function(vector_of_essays){
     avg_word_length <- number_of_characters(vector_of_essays)/wordcount(vector_of_essays)
     return (avg_word_length)
 }
+#test
+#average_word_length(vector_of_essays)
 
-average_word_length(vector_of_essays)
+
+#return the number of punctiations marks
+string <- test$essay
+res <- split(seq(nchar(string)),unlist(strsplit(string,'')))
+sapply(res,length)
 
 
 
