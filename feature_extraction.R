@@ -21,14 +21,26 @@ calculate_features<-function(vector_of_essays){
         periods <- str_count(essay, '\\.') # retunrs the number of periods - have to escape
         alphanumeric_char <- nchar(essay) - feature_word_count + 1
         feature_avg_word_length <- alphanumeric_char/feature_word_count
-        feature_avg_sentence_length <- feature_word_count/periods
-        document_feature_set <- c(feature_word_count,feature_avg_word_length,feature_avg_sentence_length,feature_commas,feature_dash,feature_semi_colon)
+        #need to do this becasue some essays don't have periods:
+        if(periods>0){
+            feature_avg_sentence_length <- feature_word_count/periods
+            feature_One_sentence <- 0
+        }
+        else{
+            feature_avg_sentence_length <- feature_word_count
+            feature_One_sentence <- 1
+        }
+        feature_One_sentence <-
+        document_feature_set <- c(feature_word_count,feature_avg_word_length,feature_avg_sentence_length,feature_commas,feature_dash,feature_semi_colon,feature_One_sentence)
         return (document_feature_set)
     }
     corpus_feature_set <- ldply(vector_of_essays,individual_features)
-    colnames(corpus_feature_set) <-c("featureWordCount","featureAvgWordLength","featureAvgSentenceLength","featurCommas","featureDash","featureSemiColon")
+    colnames(corpus_feature_set) <-c("featureWordCount","featureAvgWordLength","featureAvgSentenceLength","featurCommas","featureDash","featureSemiColon", "featuresOneSentence")
     return (corpus_feature_set)
 }
+
+
+
 
 
     library("koRpus") #supposidly will help me calculate the Gunning-Fog Index

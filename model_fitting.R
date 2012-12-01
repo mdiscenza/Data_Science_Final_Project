@@ -31,8 +31,9 @@ random_forest_evaluate <- function(training_data,training_grades,test_data,numbe
         set_label <- rep(x=set, times=dim(subset_test)[1])
         weight <- rep(x=1, times=dim(subset_test)[1])
         assign(paste("pred_subset",set,sep=""),cbind(test$id[which(test$set==set)],set_label, weight,round(pred_temp)))
-        oob_error[[set]] <- model_subset$predicted - subset_training_grades
-        comp[[set]] <-cbind(model_subset$oob.times,subset_training_grades,model_subset$oob.times - subset_training_grades)
+        pred_int <- round(model_subset$predicted)
+        oob_error[[set]] <- pred_int - subset_training_grades
+        comp[[set]] <-cbind(subset_training_grades, pred_int, abs(pred_int - subset_training_grades))
     }
     #now create the submission document:
     submission <- rbind(pred_subset1,pred_subset2,pred_subset3,pred_subset4,pred_subset5)
@@ -45,10 +46,11 @@ random_forest_evaluate <- function(training_data,training_grades,test_data,numbe
     results[[2]] <- mean(abs(errors))
     comparison <- rbind(comp[[1]], comp[[2]], comp[[3]], comp[[4]], comp[[5]])
     results[[3]] <- comparison
-    plot(density(errors))
+    #plot(density(errors))
     
     
     return (results)
 }
     
 
+fit_glmnet <- function(
