@@ -35,7 +35,7 @@ calculate_features<-function(vector_of_essays){
         return (document_feature_set)
     }
     corpus_feature_set <- ldply(vector_of_essays,individual_features)
-    colnames(corpus_feature_set) <-c("featureWordCount","featureAvgWordLength","featureAvgSentenceLength","featurCommas","featureDash","featureSemiColon", "featuresOneSentence")
+    colnames(corpus_feature_set) <-c("featureWordCount","featureAvgWordLength","featureAvgSentenceLength","featureCommas","featureDash","featureSemiColon", "featuresOneSentence")
     return (corpus_feature_set)
 }
 

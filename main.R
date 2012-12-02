@@ -41,27 +41,41 @@ test_features <- calculate_features(test$essay) #needs to be given only the vect
 
 #let's fit this model with only the bag of words
 #------------------------------------------------------------------------
+#call function
 rf_results <- random_forest_evaluate(training_tokens, training$grade,test_tokens,number_of_trees=40)
-temp <-rf_results[2]
-count(rf_results[[3]][,3]==0)[2,2]/(count(rf_results[[3]][,3]==0)[1,2]+count(rf_results[[3]][,3]==0)[2,2]) # percentage correctly categorized
-rf_results[2] #absolute mean error of rating
+rf_results[[4]] # percentage correctly categorized
+rf_results[[2]] #absolute mean error of rating
 
 
 #combine dfs to create df that the random_forest_evaluate() function can take with the extracted features
-rf_training <- cbind(training$essayset,training_features)
+rf_training <- cbind(training$set,training_features)
 colnames(rf_training)[1] <- "essayset"
 rf_test <- cbind(test$set,test_features)
 colnames(rf_test)[1] <- "essayset"
+#call function
+re_features_only <- random_forest_evaluate(rf_training, training$grade, rf_test, number_of_trees=40)
+#View results
+re_features_only[[2]]
+re_features_only[[4]]# percentage correctly categorized
+rf_results_tokens_and_features <- random_forest_evaluate(training_tokens, training$grade,test_tokens,number_of_trees=40)
 
-training[which(training_features$featureAvgSentenceLength==Inf),]
-summary(rf_training)
-summary(rf_test)
+#combine dfs to create df that the random_forest_evaluate() function can take with the extracted features as well as the bag of words as inputs
+rf_training <- cbind(training$set,training_features)
+colnames(rf_training)[1] <- "essayset"
+rf_test <- cbind(test$set,test_features)
+colnames(rf_test)[1] <- "essayset"
+#call function
+re_features_only <- random_forest_evaluate(rf_training, training$grade, rf_test, number_of_trees=40)
+#View results
+re_features_only[[2]]
+re_features_only[[4]]# percentage correctly categorized
+rf_results_tokens_and_features <- random_forest_evaluate(training_tokens, training$grade,test_tokens,number_of_trees=40)
 
-dim(na.omit(rf_test))
-summary(rf_test)
 
-rf_results <- random_forest_evaluate(rf_training, training$grade, rf_test, number_of_trees=40)
-rf_results <- random_forest_evaluate(training_tokens, training$grade,test_tokens,number_of_trees=40)
+
+
+
+
 
 
 glm_model <- fit_glmnet(rf_training, training$grade, rf_test)
