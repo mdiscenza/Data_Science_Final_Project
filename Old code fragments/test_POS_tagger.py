@@ -14,7 +14,7 @@ for file_number in range(8887, 10000): # cycle through all of the files in the d
 	pos_tags_only =""  # how do I just inittialize a list, like this??
 	for word in range(1,len(simplified)):
 		pos_tags_only = pos_tags_only +" " + simplified[word][1]
-	output_file_path ='/Users/michaeldiscenza/Dropbox/Fall_2012/Intro_to_Data_Science/Final Project/temp_text_processing/test/output/' + str(file_number) + '.txt'
+	output_file_path ='/Users/michaeldiscenza/Dropbox/Fall_2012/Intro_to_Data_Science/Final Project/temp_text_processing/test_output/' + str(file_number) + '.txt'
 	out_file = open(output_file_path, 'w')
 	out_file.write(pos_tags_only)
 	out_file.close()
