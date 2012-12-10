@@ -28,15 +28,16 @@ random_forest_evaluate <- function(training_data,training_grades,test_data,numbe
         subset_training <- training_data[which(training_data$essayset==set),-1]
         subset_test <- test_data[which(test_data$essayset==set),-1]
         subset_training_grades <- training_grades[which(training_data$essayset==set)]
-        model_subset <-randomForest(x=subset_training, y=subset_training_grades, ntree=number_of_trees, type="Classification")
+        #fitting the model:
+        model_subset <-randomForest(x=subset_training, y=subset_training_grades, ntree=number_of_trees, type="Regression")
         assign(paste("pred_subset",set,sep=""),predict(model_subset, subset_test))
         pred_temp <- predict(model_subset, subset_test)
         set_label <- rep(x=set, times=dim(subset_test)[1])
         weight <- rep(x=1, times=dim(subset_test)[1])
         assign(paste("pred_subset",set,sep=""),cbind(test$id[which(test$set==set)],set_label, weight,round(pred_temp)))
         pred_int <- round(model_subset$predicted)
-        oob_error[[set]] <- pred_int - subset_training_grades
-        comp[[set]] <-cbind(subset_training_grades, pred_int, abs(pred_int - subset_training_grades))
+        oob_error[[set]] <- subset_training_grades-pred_int
+        comp[[set]] <-cbind(subset_training_grades, pred_int, pred_int - subset_training_grades)
     }
     #now create the submission document:
     submission <- rbind(pred_subset1,pred_subset2,pred_subset3,pred_subset4,pred_subset5)
@@ -55,6 +56,12 @@ random_forest_evaluate <- function(training_data,training_grades,test_data,numbe
     
     return (results)
 }
+
+
+
+
+
+
 #######################################################################################################
 #Function for fitting glmnet
 #the following variable assignments are for debugging the fucntion below
@@ -77,6 +84,34 @@ fit_glmnet <- function(training_data, training_response, test_data){
         #featureWordCount+featureAvgWordLength+featureAvgSentenceLength+featureCommas + featureDash + featureSemiColon
         model_subset <- lm(subset_training_grades~featureWordCount+featureAvgWordLength+featureAvgSentenceLength+featureCommas + featureDash + featureSemiColon, data=input_data)
         model_subset <- lm(subset_training_grades~featureWordCount+featureAvgWordLength +, data=input_data)
+    }}   
+       
+        
+        
+        
+library(e1071)
+library(rpart)     
+       
+training_data <- rf_training 
+training_response <- training$grade 
+rf_test <- test_data        
+    
+set <- 1
+results <- NULL
+oob_error <- NULL
+comp <- NULL
+for (set in 1:5){
+    print(paste("Now fitting model to essayset, ",set, sep=""))
+    subset_training <- training_data[which(training_data$essayset==set),-1]
+    subset_test <- test_data[which(test_data$essayset==set),-1]
+    subset_training_grades <- training_response[which(training_data$essayset==set)]
+    input_data <- cbind(subset_training_grades,subset_training)
+    colnames(input_data)[1] <- "grades"
+
+svm.model <- boosting(grades ~ ., data = input_data)
+svm.pred <- predict(svm.model, subset_test)       
+        
+        
         
         
         
