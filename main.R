@@ -20,8 +20,9 @@ rm(tokenized_data) # storing this data in two places would be redundant so we ge
 
 #Deriving additional features of the data 
 #------------------------------------------------------------------------
-    training_features <- calculate_features(training$essay) #needs to be given only the vector of essays themselves
-    test_features <- calculate_features(test$essay) #needs to be given only the vector of essays themselves
+# warning - will take a long time if you are counting unique transition words in this step 
+training_features <- calculate_features(training$essay) #needs to be given only the vector of essays themselves
+test_features <- calculate_features(test$essay) #needs to be given only the vector of essays themselves
 
 
 #getting features from outside of R
@@ -170,13 +171,12 @@ rf_features_and_tokens_5[[4]]
 write.csv(rf_features_and_tokens_4[[1]], file="submission_5.csv")
 
 
-# with unstemmed word - took out you and i rate
-#with no biase correlations, mtry set to default - 150 trees, initial bag of words
+# Only the normalized POS counts and only 194 tokens
 rf_training <- cbind(training_tokens,training_features,training_POS_tokens[,-1])
 colnames(rf_training)[1] <- "essayset"
-rf_test <- cbind(test_tokens,test_features, test_POS_tokens[,-1])
+rf_test <- cbind(test_tokens,test_features,test_POS_tokens[,-1])
 colnames(rf_test)[1] <- "essayset"
-rf_features_and_tokens_5 <- random_forest_evaluate(rf_training, training$grade, rf_test, number_of_trees=150)
-rf_features_and_tokens_5[[2]]
-rf_features_and_tokens_5[[4]]
-write.csv(rf_features_and_tokens_4[[1]], file="submission_6.csv")
+rf_features_and_tokens_8 <- random_forest_evaluate(rf_training, training$grade, rf_test, number_of_trees=200)
+rf_features_and_tokens_8[[2]]
+rf_features_and_tokens_8[[4]]
+write.csv(rf_features_and_tokens_7[[1]], file="submission_9.csv")

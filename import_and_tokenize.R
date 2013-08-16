@@ -32,7 +32,7 @@ tokenize_data <- function(train, test, type){
     
     #Tokenizing the training data----------------------------------------------------------
     if (type=="text"){
-        training_tokens <- create_matrix(train, language="english", removeNumbers=TRUE, stemWords=TRUE, removePunctuation=T, removeStopwords=T, toLower=T, removeSparseTerms=.99)
+        training_tokens <- create_matrix(train, language="english", removeNumbers=TRUE, stemWords=TRUE, removePunctuation=T, removeStopwords=T, toLower=T, removeSparseTerms=.98)
     }
     if (type=="text-unstemmed"){
         training_tokens <- create_matrix(train, language="english", removeNumbers=TRUE, stemWords=FALSE, removePunctuation=T, removeStopwords=T, toLower=T, removeSparseTerms=.99)
@@ -57,7 +57,7 @@ tokenize_data <- function(train, test, type){
     #Tokenizing the test data----------------------------------------------------------
     test_ids <- test$id
     if (type=="text"){
-        test_tokens <- create_matrix(test, language="english", removeNumbers=TRUE, stemWords=TRUE, removePunctuation=T, removeStopwords=T, toLower=T, removeSparseTerms=.99)
+        test_tokens <- create_matrix(test, language="english", removeNumbers=TRUE, stemWords=TRUE, removePunctuation=T, removeStopwords=T, toLower=T, removeSparseTerms=.98)
     }
     if (type=="text-unstemmed"){
         test_tokens <- create_matrix(test, language="english", removeNumbers=TRUE, stemWords=FALSE, removePunctuation=T, removeStopwords=T, toLower=T, removeSparseTerms=.99)

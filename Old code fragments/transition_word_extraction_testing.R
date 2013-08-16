@@ -10,8 +10,7 @@ for (j in 1:length(training$essay)){
         pattern <- as.character(transition_words[i,])
         if(str_count(essay, pattern) > 1){
             transition_word_count <- transition_word_count + 1
-            print(pattern)
-        }
+            }
     }
     transition_count[j] <- transition_word_count
 }
