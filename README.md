@@ -1,4 +1,5 @@
-Introduction to Data Science - Fall 2012 - Kaggle Competition Code
+Introduction to Data Science - Fall 2012
+Kaggle Competition Code
 =============
 
 This repository contains the code that I used for our class-wide Kaggle competition.  The goal of the competition was to automatically grade essays and minimize the difference between the machine-assigned grades and the grades that were given to each essay by expert graders across five different sets of essays on different topics from students grades 7 through 10.
