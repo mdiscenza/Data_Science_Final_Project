@@ -1,4 +1,5 @@
 Introduction to Data Science - Fall 2012
+---------
 Kaggle Competition Code
 =============
 
